@@ -22,6 +22,10 @@ Route::middleware('auth')->group(function () {
     // Course routes visible to all logged‑in users
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
+    
+    // Student enrollment routes
+    Route::post('/courses/{course}/enroll', [CourseController::class, 'enroll'])->name('courses.enroll');
+    Route::delete('/courses/{course}/unenroll', [CourseController::class, 'unenroll'])->name('courses.unenroll');
 
     // Instructor-only routes (use your InstructorMiddleware alias)
     Route::middleware('instructor')->group(function () {
