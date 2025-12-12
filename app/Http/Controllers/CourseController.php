@@ -22,6 +22,11 @@ class CourseController extends Controller
      */
     public function create()
     {
+        // Ensure only instructors can create courses
+        if (!auth()->user()->isInstructor()) {
+            abort(403, 'Only instructors can create courses.');
+        }
+        
         return view('courses.create');
     }
 
@@ -30,6 +35,11 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        // Ensure only instructors can create courses
+        if (!auth()->user()->isInstructor()) {
+            abort(403, 'Only instructors can create courses.');
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'short_description' => 'required|string|max:500',
@@ -40,7 +50,7 @@ class CourseController extends Controller
 
         Course::create($validated);
 
-        return redirect()->route('instructor.dashboard')->with('success', 'Course created successfully!');
+        return redirect()->route('courses.index')->with('success', 'Course created successfully!');
     }
 
     /**

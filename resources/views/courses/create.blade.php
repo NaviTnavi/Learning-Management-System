@@ -1,45 +1,91 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm text-slate-500">Instructor workspace</p>
-                <h2 class="text-2xl font-semibold text-slate-900">Create course</h2>
-            </div>
-            <a href="{{ route('courses.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Back to courses</a>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Create New Course') }}
+        </h2>
     </x-slot>
 
-    <div class="bg-slate-50 py-12">
-        <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <div class="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm">
-                <form method="POST" action="{{ route('courses.store') }}" class="space-y-6">
-                    @csrf
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <form method="POST" action="{{ route('courses.store') }}" class="space-y-6">
+                        @csrf
 
-                    <div>
-                        <x-input-label for="title" :value="__('Title')" />
-                        <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" required autofocus value="{{ old('title') }}" />
-                        <x-input-error :messages="$errors->get('title')" class="mt-2" />
-                    </div>
+                        <!-- Title -->
+                        <div>
+                            <label for="title" class="block font-medium text-sm text-gray-700">
+                                Course Title
+                            </label>
+                            <input 
+                                id="title" 
+                                type="text" 
+                                name="title" 
+                                value="{{ old('title') }}"
+                                class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                required 
+                                autofocus
+                            >
+                            @error('title')
+                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-                    <div>
-                        <x-input-label for="short_description" :value="__('Short Description')" />
-                        <textarea id="short_description" name="short_description" rows="3" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" required>{{ old('short_description') }}</textarea>
-                        <x-input-error :messages="$errors->get('short_description')" class="mt-2" />
-                    </div>
+                        <!-- Short Description -->
+                        <div>
+                            <label for="short_description" class="block font-medium text-sm text-gray-700">
+                                Short Description
+                            </label>
+                            <input 
+                                id="short_description" 
+                                type="text" 
+                                name="short_description" 
+                                value="{{ old('short_description') }}"
+                                class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                required
+                                maxlength="500"
+                            >
+                            <p class="mt-1 text-sm text-gray-500">A brief summary of the course (max 500 characters)</p>
+                            @error('short_description')
+                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-                    <div>
-                        <x-input-label for="content" :value="__('Course Content')" />
-                        <textarea id="content" name="content" rows="8" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" required>{{ old('content') }}</textarea>
-                        <x-input-error :messages="$errors->get('content')" class="mt-2" />
-                    </div>
+                        <!-- Content -->
+                        <div>
+                            <label for="content" class="block font-medium text-sm text-gray-700">
+                                Course Content
+                            </label>
+                            <textarea 
+                                id="content" 
+                                name="content" 
+                                rows="12"
+                                class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                required
+                            >{{ old('content') }}</textarea>
+                            <p class="mt-1 text-sm text-gray-500">Detailed course description, curriculum, prerequisites, etc. (Supports Markdown)</p>
+                            @error('content')
+                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-                    <div class="flex items-center justify-end gap-3">
-                        <a href="{{ route('courses.index') }}" class="text-sm font-medium text-slate-600 hover:text-slate-800">Cancel</a>
-                        <x-primary-button>
-                            {{ __('Publish course') }}
-                        </x-primary-button>
-                    </div>
-                </form>
+                        <!-- Buttons -->
+                        <div class="flex items-center justify-end gap-4">
+                            <a 
+                                href="{{ route('courses.index') }}" 
+                                class="inline-flex items-center px-4 py-2 bg-gray-300 border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition ease-in-out duration-150"
+                            >
+                                Cancel
+                            </a>
+                            <button 
+                                type="submit"
+                                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                            >
+                                Create Course
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
