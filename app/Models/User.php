@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // ← ADD THIS LINE
     ];
 
     /**
@@ -45,25 +46,26 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public function courses()
-{
-    return $this->hasMany(Course::class, 'instructor_id');
-}
+    {
+        return $this->hasMany(Course::class, 'instructor_id');
+    }
 
-public function enrolledCourses()
-{
-    return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id')
-                ->withPivot('is_completed')
-                ->withTimestamps();
-}
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id')
+                    ->withPivot('is_completed')
+                    ->withTimestamps();
+    }
 
-public function isInstructor()
-{
-    return $this->role === 'instructor';
-}
+    public function isInstructor(): bool
+    {
+        return $this->role === 'instructor';
+    }
 
-public function isStudent()
-{
-    return $this->role === 'student';
-}
+    public function isStudent(): bool
+    {
+        return $this->role === 'student';
+    }
 }

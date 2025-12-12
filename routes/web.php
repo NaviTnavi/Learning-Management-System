@@ -19,12 +19,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Course routes
+    // Course routes visible to all logged‑in users
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
 
-    // Instructor-only routes
-    Route::middleware('can:instructor')->group(function () {
+    // Instructor-only routes (use your InstructorMiddleware alias)
+    Route::middleware('instructor')->group(function () {
         Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard');
         Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
         Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
